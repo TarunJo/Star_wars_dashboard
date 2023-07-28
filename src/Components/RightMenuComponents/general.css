@@ -1,0 +1,52 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, .data-td, .data-td-svg {
+    color: var(--white-1, #FFF);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+
+    /* Heading/Med */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    /* 142.857% */
+    letter-spacing: 0.5px;
+
+    height: 20px;
+    padding: 0px 16px;
+    text-align: left;
+    padding: 10px;
+}
+#th-last {
+    border-radius: 0px 6px 6px 0px;
+}
+
+#heading-tr {
+    background: #4D5875;
+}
+
+td {
+    padding: 10px;
+}
+
+.table-svg {
+    padding-right: 2%;
+    /* margin-top: 3%; */
+}
+
+.data-tr {
+    border-bottom: 1px solid white;
+    padding: 10px;
+}
+
+.data-td-svg {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    padding-top: 3%;
+}
