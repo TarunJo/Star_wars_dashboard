@@ -1,12 +1,11 @@
 #right-menu {
-    width: calc(100vw - 283px);
+    width: calc(100vw - 20vw);
     height: calc(100vh - 80px);
     padding: 10px 14px 10px 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex-shrink: 0;
-    background: #03123D;
 }
 
 #sub-header {

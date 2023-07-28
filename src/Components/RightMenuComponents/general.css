@@ -1,9 +1,12 @@
+/* css for list view */
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
-th, .data-td, .data-td-svg {
+th,
+.data-td,
+.data-td-svg {
     color: var(--white-1, #FFF);
     text-align: center;
     font-feature-settings: 'clig' off, 'liga' off;
@@ -22,6 +25,7 @@ th, .data-td, .data-td-svg {
     text-align: left;
     padding: 10px;
 }
+
 #th-last {
     border-radius: 0px 6px 6px 0px;
 }
@@ -49,4 +53,64 @@ td {
     justify-self: center;
     align-items: center;
     padding-top: 3%;
+}
+
+
+/* css for grid view */
+
+#grid-view {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#base-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.main-container {
+    flex-shrink: 0;
+    width: 354px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.img-container {
+    height: 160px;
+    width: 100%;
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--white-2, #FAFAFB);
+}
+
+.desc-container {
+    display: flex;
+    padding: 5px 9px 5px 9px;
+    width: 95%;
+    justify-content: space-between;
+    /* margin-bottom: 5%; */
+    align-items: center;
+    align-self: stretch;
+    border-radius: 8px;
+    background: rgba(249, 250, 253, 0.20);
+}
+
+
+.name-container {
+    display: flex;
+}
+
+.name-svg {
+    margin-top: 0.7vh;
+}
+
+.about-more {
+    display: flex;
+    padding: 4px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 6px;
+    background: rgba(249, 250, 253, 0.20);
 }
