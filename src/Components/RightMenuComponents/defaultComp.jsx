@@ -2,7 +2,7 @@ import React from 'react'
 import "./defaultComp.css";
 import dashBoardImg from "../Resources/dashboard.png";
 
-function DefaultComp() {
+function DefaultComp() { 
   return (
     <div id="default-comp">
       <div class="frame">

@@ -3,8 +3,13 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import "./Generals/general.css";
 import MoreMenu from './Generals/moreMenu';
+import Delete from './Generals/delete';
 
 function Species(props) {
+  // Delete option working
+  const [deleteMenu1, setDeleteMenu1] = useState(false);
+  const [deleteMenu2, setDeleteMenu2] = useState(false);
+
   // more menu options
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
@@ -73,9 +78,9 @@ function Species(props) {
       <div id="gid-view">
         <div id="base-container">
           {
-            species.map((dat,ind) =>
+            species.map((dat, ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + (ind+175)*10} alt="Error" class="img-container"></img>
+                <img src={"https://picsum.photos/400/400?random=" + (ind + 175) * 10} alt="Error" class="img-container"></img>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="name-svg">
@@ -90,10 +95,14 @@ function Species(props) {
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 3C11.2287 3 10.3333 3.89543 10.3333 5C10.3333 6.10457 11.2287 7 12.3333 7C13.4378 7 14.3333 6.10457 14.3333 5C14.3333 3.89543 13.4378 3 12.3333 3Z" fill="white" />
                     </svg>
                     {menuVisible && (
-                      <MoreMenu menuPosition={menuPosition}></MoreMenu>
+                      <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu1} onClick={handleContextMenu}></MoreMenu>
                     )}
+                    {
+                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1}></Delete>
+                    }
 
-                  </div>                </div>
+                  </div>
+                </div>
               </div>
             )
           }
@@ -135,8 +144,11 @@ function Species(props) {
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3Z" fill="white" />
                       </svg>
                       {menuVisible && (
-                        <MoreMenu menuPosition={menuPosition}></MoreMenu>
+                        <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu2}></MoreMenu>
                       )}
+                      {
+                        deleteMenu2 && <Delete deleteMenu={setDeleteMenu2}></Delete>
+                      }
                     </div>
                   </td>
                 </tr>
