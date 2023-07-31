@@ -19,7 +19,7 @@ function Header(props) {
     }
     else {
         isvissible = true;
-        console.log(props.State);
+        // console.log(props.State);
         return (
             <div id="Header">
                 <img src={logo} alt="header" id="logo" />

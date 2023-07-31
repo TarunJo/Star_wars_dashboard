@@ -1,15 +1,42 @@
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import "./general.css";
-
+import "./Generals/general.css";
+import MoreMenu from './Generals/moreMenu';
 
 function Vehicles(props) {
+  // more menu options
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    // console.log("CLicked");
+    setMenuVisible(true);
+    // console.log(menuVisible);
+    if (props.toggler1 === 0)
+      setMenuPosition({ x: event.clientX + 20, y: event.clientY - 230 });
+    else
+      setMenuPosition({ x: event.clientX - 200, y: event.clientY - 200 })
+  };
 
   const [vehicles, setVehicles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    function handleClickOutside(event) {
+      console.log(event.target.className.baseVal);
+      if (event.target.className.baseVal !== "more-option-svg") {
+        setMenuVisible(false);
+      }
+    }
+
+    function handleScroll(event) {
+      setMenuVisible(false);
+    }
+
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get('https://swapi.dev/api/vehicles/');
         setVehicles(response.data.results);
@@ -17,19 +44,38 @@ function Vehicles(props) {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
+      setMenuVisible(false);
     };
 
     fetchData();
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('scroll', handleScroll);
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, []);
 
-  if (props.toggler1 === 0) {
+  if (isLoading === true) {
+    // Loading view
+    return (
+      <div className="loader-container">
+        <div className="spinner"></div>
+      </div>
+
+    );
+
+  }
+  else if (props.toggler1 === 0) {
+    // Grid view
     return (
       <div id="gid-view">
         <div id="base-container">
           {
-            vehicles.map((dat) =>
+            vehicles.map((dat,ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + Math.random()} alt="Error" class="img-container"></img>
+                <img src={"https://picsum.photos/400/400?random=" + (ind+207)*10} alt="Error" class="img-container"></img>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="name-svg">
@@ -44,12 +90,16 @@ function Vehicles(props) {
                     </svg>
                     <div class="data-td">{dat.name}</div>
                   </div>
-                  <div class="about-more">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                  <div class="about-more" onClick={handleContextMenu}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none" className="more-option-svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 17C11.2287 17 10.3333 17.8954 10.3333 19C10.3333 20.1046 11.2287 21 12.3333 21C13.4378 21 14.3333 20.1046 14.3333 19C14.3333 17.8954 13.4378 17 12.3333 17Z" fill="white" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 10C11.2287 10 10.3333 10.8954 10.3333 12C10.3333 13.1046 11.2287 14 12.3333 14C13.4378 14 14.3333 13.1046 14.3333 12C14.3333 10.8954 13.4378 10 12.3333 10Z" fill="white" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 3C11.2287 3 10.3333 3.89543 10.3333 5C10.3333 6.10457 11.2287 7 12.3333 7C13.4378 7 14.3333 6.10457 14.3333 5C14.3333 3.89543 13.4378 3 12.3333 3Z" fill="white" />
                     </svg>
+                    {menuVisible && (
+                      <MoreMenu menuPosition={menuPosition}></MoreMenu>
+                    )}
+
                   </div>
                 </div>
               </div>
@@ -60,6 +110,7 @@ function Vehicles(props) {
     )
   }
   else {
+    // List view
     return (
       <div>
         <table id="my-table">
@@ -73,8 +124,8 @@ function Vehicles(props) {
           </thead>
           <tbody>
             {
-              vehicles.map((dat) =>
-                <tr class="data-tr">
+              vehicles.map((dat, ind) =>
+                <tr class={ind === 0 ? "" : "data-tr"}>
                   <td class="data-td-svg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="table-svg">
                       <g clip-path="url(#clip0_14_1647)">
@@ -91,11 +142,17 @@ function Vehicles(props) {
                     <div>{dat.name}</div></td>
                   <td class="data-td">{dat.model}</td>
                   <td class="data-td">{dat.max_atmosphering_speed}</td>
-                  <td class="data-td"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 17C10.8954 17 10 17.8954 10 19C10 20.1046 10.8954 21 12 21C13.1046 21 14 20.1046 14 19C14 17.8954 13.1046 17 12 17Z" fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10Z" fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3Z" fill="white" />
-                  </svg>
+                  <td class="data-td">
+                    <div class="table-more" onClick={handleContextMenu}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="more-option-svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 17C10.8954 17 10 17.8954 10 19C10 20.1046 10.8954 21 12 21C13.1046 21 14 20.1046 14 19C14 17.8954 13.1046 17 12 17Z" fill="white" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10Z" fill="white" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3Z" fill="white" />
+                      </svg>
+                      {menuVisible && (
+                        <MoreMenu menuPosition={menuPosition}></MoreMenu>
+                      )}
+                    </div>
                   </td>
                 </tr>
               )
