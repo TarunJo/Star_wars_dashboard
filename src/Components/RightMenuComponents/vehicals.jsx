@@ -9,6 +9,7 @@ function Vehicles(props) {
   // Delete option working
   const [deleteMenu1, setDeleteMenu1] = useState(false);
   const [deleteMenu2, setDeleteMenu2] = useState(false);
+  const [whichDelete, setWhichDelete] = useState(0);
 
   // more menu options
   const [menuVisible, setMenuVisible] = useState(false);
@@ -31,6 +32,9 @@ function Vehicles(props) {
   useEffect(() => {
     function handleClickOutside(event) {
       // console.log(event.target.className.baseVal);
+      if(!isNaN(parseInt(event.target.id))) {
+        setWhichDelete(parseInt(event.target.id));
+      }
       if (event.target.className.baseVal !== "more-option-svg") {
         setMenuVisible(false);
       }
@@ -97,7 +101,7 @@ function Vehicles(props) {
                     <div class="data-td">{dat.name}</div>
                   </div>
                   <div class="about-more" onClick={handleContextMenu}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none" className="more-option-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none" className="more-option-svg" id={ind}>
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 17C11.2287 17 10.3333 17.8954 10.3333 19C10.3333 20.1046 11.2287 21 12.3333 21C13.4378 21 14.3333 20.1046 14.3333 19C14.3333 17.8954 13.4378 17 12.3333 17Z" fill="white" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 10C11.2287 10 10.3333 10.8954 10.3333 12C10.3333 13.1046 11.2287 14 12.3333 14C13.4378 14 14.3333 13.1046 14.3333 12C14.3333 10.8954 13.4378 10 12.3333 10Z" fill="white" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3333 3C11.2287 3 10.3333 3.89543 10.3333 5C10.3333 6.10457 11.2287 7 12.3333 7C13.4378 7 14.3333 6.10457 14.3333 5C14.3333 3.89543 13.4378 3 12.3333 3Z" fill="white" />
@@ -106,7 +110,7 @@ function Vehicles(props) {
                       <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu1} onClick={handleContextMenu}></MoreMenu>
                     )}
                     {
-                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1}></Delete>
+                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1} data={vehicles} index={whichDelete}></Delete>
                     }
 
                   </div>
@@ -153,7 +157,7 @@ function Vehicles(props) {
                   <td class="data-td">{dat.max_atmosphering_speed}</td>
                   <td class="data-td">
                     <div class="table-more" onClick={handleContextMenu}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="more-option-svg">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="more-option-svg" id={ind}>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 17C10.8954 17 10 17.8954 10 19C10 20.1046 10.8954 21 12 21C13.1046 21 14 20.1046 14 19C14 17.8954 13.1046 17 12 17Z" fill="white" />
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10Z" fill="white" />
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3Z" fill="white" />
@@ -162,7 +166,7 @@ function Vehicles(props) {
                         <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu2}></MoreMenu>
                       )}
                       {
-                        deleteMenu2 && <Delete deleteMenu={setDeleteMenu2}></Delete>
+                        deleteMenu2 && <Delete deleteMenu={setDeleteMenu2} data={vehicles} index={whichDelete}></Delete>
                       }
                     </div>
                   </td>

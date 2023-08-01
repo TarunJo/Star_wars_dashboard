@@ -23,7 +23,7 @@ function Delete(props) {
                         Caution!
                     </div>
                     <div id="delete-caution-detail">
-                        Are you sure you want to Delete <span id="delete-caution-detail-name">{props.data[props.index].title}</span>
+                        Are you sure you want to Delete <span id="delete-caution-detail-name">{props.data[props.index].title}{props.data[props.index].name}</span>
                     </div>
                 </div>
                 <div id="delete-option-buttons">
