@@ -44,7 +44,7 @@
     /* 142.857% */
     letter-spacing: 0.16px;
     opacity: 0.800000011920929;
-    margin-top: 0;
+    margin-top: 2%;
     margin-bottom: 0;
 }
 
@@ -54,25 +54,3 @@
     border-radius: 8px;
     background:  lightgray 50% / cover no-repeat;
 }
-
-/* Media Queries */
-/* @media (max-width: 768px) {
-    .container {
-        padding: 16px;
-    }
-    
-    #main-heading {
-        font-size: 20px;
-        line-height: 22px;
-    }
-    
-    #sub-heading {
-        font-size: 14px;
-        line-height: 18px;
-    }
-    
-    #dash-board-image {
-        max-width: auto;
-        height: auto;
-    }
-} */

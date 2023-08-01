@@ -4,12 +4,17 @@ import { useState, useEffect } from 'react';
 import "./Generals/general.css";
 import MoreMenu from './Generals/moreMenu';
 import Delete from './Generals/delete';
+import ThirdSidebar from './Generals/thirdSidebar';
 
 function Films(props) {
+  // Third sidebar configuration
+  const [viewThirdbar, setViewThirdbar] = useState(false);
+  const [whichState, setWhichState] = useState(0);
+
   // Delete option working
   const [deleteMenu1, setDeleteMenu1] = useState(false);
   const [deleteMenu2, setDeleteMenu2] = useState(false);
-  
+
   // more menu options
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
@@ -29,10 +34,18 @@ function Films(props) {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target.className.baseVal);
+      console.log(event.target.className);
       if (event.target.className.baseVal !== "more-option-svg") {
         setMenuVisible(false);
       }
+      if (event.target.parentNode.className.length >= 1 && event.target.parentNode.className.length <= 2) {
+        setWhichState(parseInt(event.target.parentNode.className));
+        setViewThirdbar(true);
+      }
+      if (event.target.className.baseVal === "cross-button" || event.target.id === "close-button-span" || event.target.id === "button-third-sidebar") {
+        setViewThirdbar(false);
+      }
+      // console.log(viewThirdbar);
     }
 
     function handleScroll() {
@@ -44,7 +57,7 @@ function Films(props) {
       try {
         const response = await axios.get('https://swapi.dev/api/films/');
         setFilms(response.data.results);
-        // console.log(films);
+        console.log(response.data.results[0].title);
       } catch (error) {
         console.error(error);
       }
@@ -81,7 +94,9 @@ function Films(props) {
           {
             films.map((dat, ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + (ind + 7) * 10} alt="Error" class="img-container"></img>
+                <div className={"" + ind}>
+                  <img src={"https://picsum.photos/400/400?random=" + (ind + 7) * 10} alt="Error" class="img-container"></img>
+                </div>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="name-svg">
@@ -99,7 +114,7 @@ function Films(props) {
                       <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu1} onClick={handleContextMenu}></MoreMenu>
                     )}
                     {
-                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1}></Delete>
+                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1} data={films} index={ind}></Delete>
                     }
                   </div>
                 </div>
@@ -107,6 +122,7 @@ function Films(props) {
             )
           }
         </div>
+        {viewThirdbar && <ThirdSidebar data={films} index={whichState}></ThirdSidebar>}
       </div>
     )
   }
@@ -146,7 +162,7 @@ function Films(props) {
                         <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu2}></MoreMenu>
                       )}
                       {
-                        deleteMenu2 && <Delete deleteMenu={setDeleteMenu2}></Delete>
+                        deleteMenu2 && <Delete deleteMenu={setDeleteMenu2} data={films} index={ind}></Delete>
                       }
                     </div>
                   </td>

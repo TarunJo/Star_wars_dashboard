@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import "./Generals/general.css";
 import MoreMenu from './Generals/moreMenu';
 import Delete from './Generals/delete';
+import SecondAPICall from './Generals/secondAPICall';
 
 function Species(props) {
   // Delete option working
@@ -30,7 +31,7 @@ function Species(props) {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target.className.baseVal);
+      // console.log(event.target.className.baseVal);
       if (event.target.className.baseVal !== "more-option-svg") {
         setMenuVisible(false);
       }
@@ -45,7 +46,6 @@ function Species(props) {
       try {
         const response = await axios.get('https://swapi.dev/api/species/');
         setSpecies(response.data.results);
-        // console.log(species);
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +80,9 @@ function Species(props) {
           {
             species.map((dat, ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + (ind + 175) * 10} alt="Error" class="img-container"></img>
+                <div className={"" + ind}>
+                  <img src={"https://picsum.photos/400/400?random=" + (ind + 175) * 10} alt="Error" class="img-container"></img>
+                </div>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="name-svg">
@@ -134,7 +136,7 @@ function Species(props) {
 
 
                     <div>{dat.name}</div></td>
-                  <td class="data-td">{dat.homeworld}</td>
+                  <td class="data-td"><SecondAPICall data={dat.homeworld}></SecondAPICall></td>
                   <td class="data-td">{dat.average_lifespan}</td>
                   <td class="data-td">
                     <div class="table-more" onClick={handleContextMenu}>

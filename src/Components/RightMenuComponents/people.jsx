@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import "./Generals/general.css";
 import MoreMenu from './Generals/moreMenu';
 import Delete from './Generals/delete';
+import SecondAPICall from './Generals/secondAPICall';
 
 function People(props) {
   // Delete option working
@@ -30,7 +31,7 @@ function People(props) {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target.className.baseVal);
+      // console.log(event.target.className.baseVal);
       if (event.target.className.baseVal !== "more-option-svg") {
         setMenuVisible(false);
       }
@@ -78,7 +79,9 @@ function People(props) {
           {
             people.map((dat, ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + (ind + 81) * 10} alt="Error" class="img-container"></img>
+                <div className={"" + ind}>
+                  <img src={"https://picsum.photos/400/400?random=" + (ind + 81) * 10} alt="Error" class="img-container"></img>
+                </div>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="21" viewBox="0 0 32 21" fill="none" class="name-svg">
@@ -96,7 +99,7 @@ function People(props) {
                       <MoreMenu menuPosition={menuPosition} setDeleteMenu={setDeleteMenu1} onClick={handleContextMenu}></MoreMenu>
                     )}
                     {
-                      deleteMenu1 && <Delete deleteMenu={setDeleteMenu1}></Delete>
+                      deleteMenu1 && <Delete name={dat.name} deleteMenu={setDeleteMenu1}></Delete>
                     }
                   </div>
                 </div>
@@ -131,7 +134,7 @@ function People(props) {
 
                     <div>{dat.name}</div></td>
                   <td class="data-td">{dat.birth_year}</td>
-                  <td class="data-td">{dat.species}</td>
+                  <td class="data-td"><SecondAPICall data={dat.species}></SecondAPICall></td>
                   <td class="data-td">
                     <div class="table-more" onClick={handleContextMenu}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="more-option-svg">

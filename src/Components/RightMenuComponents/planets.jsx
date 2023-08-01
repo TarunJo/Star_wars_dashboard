@@ -30,7 +30,7 @@ function Planet(props) {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target.className.baseVal);
+      // console.log(event.target.className.baseVal);
       if (event.target.className.baseVal !== "more-option-svg") {
         setMenuVisible(false);
       }
@@ -45,6 +45,7 @@ function Planet(props) {
       try {
         const response = await axios.get('https://swapi.dev/api/planets/');
         setPlanet(response.data.results);
+        
         // console.log(planet);
       } catch (error) {
         console.error(error);
@@ -79,9 +80,11 @@ function Planet(props) {
       <div id="gid-view">
         <div id="base-container">
           {
-            planet.map((dat,ind) =>
+            planet.map((dat, ind) =>
               <div class="main-container">
-                <img src={"https://picsum.photos/400/400?random=" + (ind+99)*10} alt="Error" class="img-container"></img>
+                <div className={"" + ind}>
+                  <img src={"https://picsum.photos/400/400?random=" + (ind + 99) * 10} alt="Error" class="img-container"></img>
+                </div>
                 <div class="desc-container">
                   <div class="name-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="name-svg">
